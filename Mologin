@@ -1,0 +1,58 @@
+from playwright.sync_api import Playwright, sync_playwright
+
+
+def run(playwright: Playwright) -> None:
+    browser = playwright.chromium.launch(headless=False)
+    context = browser.new_context()
+
+    # Click img
+    page.click("img")
+    # assert page.url == "http://192.168.30.154:8899/"
+
+    # Click text=登录 / 注册
+    page.click("text=登录 / 注册")
+    # assert page.url == "http://192.168.30.154:8899/user/login?from=%2F"
+
+    # Click text=密码登录
+    page.click("text=密码登录")
+
+    # Click [placeholder="请输入已注册的账户"]
+    page.click("[placeholder=\"请输入已注册的账户\"]")
+
+    # Fill [placeholder="请输入已注册的账户"]
+    page.fill("[placeholder=\"请输入已注册的账户\"]", "luxu")
+
+    # Press Enter
+    page.press("[placeholder=\"请输入已注册的账户\"]", "Enter")
+
+    # Fill [placeholder="请输入已注册的账户"]
+    page.fill("[placeholder=\"请输入已注册的账户\"]", "luxu99")
+
+    # Press Tab
+    page.press("[placeholder=\"请输入已注册的账户\"]", "Tab")
+
+    # Fill [placeholder="请输入密码"]
+    page.fill("[placeholder=\"请输入密码\"]", "123456")
+
+    # Click button:has-text("登录")
+    # with page.expect_navigation(url="http://192.168.30.154:8899/"):
+    with page.expect_navigation():
+        page.click("button:has-text(\"登录\")")
+
+    # Click text=设置
+    page.click("text=设置")
+    # assert page.url == "http://192.168.30.154:8899/setting/profile/5e920d11ec8b2a1543dcaee8"
+
+    # Click text=编辑
+    page.click("text=编辑")
+
+    # Click button:has-text("确定")
+    page.click("button:has-text(\"确定\")")
+
+    # ---------------------
+    context.close()
+    browser.close()
+
+
+with sync_playwright() as playwright:
+    run(playwright)

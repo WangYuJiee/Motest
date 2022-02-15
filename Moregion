@@ -1,0 +1,58 @@
+from playwright.sync_api import Playwright, sync_playwright
+
+
+def run(playwright: Playwright) -> None:
+    browser = playwright.chromium.launch(headless=False)
+    context = browser.new_context()
+
+    # Open new page
+    page = context.new_page()
+
+    # Go to https://momodel.cn/
+    page.goto("https://momodel.cn/")
+
+    # Click text=登录 / 注册
+    page.click("text=登录 / 注册")
+    # assert page.url == "https://momodel.cn/user/login?from=%2F"
+
+    # Click text=密码登录
+    page.click("text=密码登录")
+
+    # Click text=注册账号
+    page.click("text=注册账号")
+    # assert page.url == "https://momodel.cn/user/register?from=%2F"
+
+    # Click [placeholder="请输入邮箱"]
+    page.click("[placeholder=\"请输入邮箱\"]")
+
+    # Fill [placeholder="请输入邮箱"]
+    page.fill("[placeholder=\"请输入邮箱\"]", "luxu111@qq.com")
+
+    # Press Tab
+    page.press("[placeholder=\"请输入邮箱\"]", "Tab")
+
+    # Fill [placeholder="至少6位数字或字符"]
+    page.fill("[placeholder=\"至少6位数字或字符\"]", "123456")
+
+    # Press Tab
+    page.press("[placeholder=\"至少6位数字或字符\"]", "Tab")
+
+    # Fill #re_password
+    page.fill("#re_password", "123456")
+
+    # Click button:has-text("注册")
+    page.click("button:has-text(\"注册\")")
+
+    # Click button:has-text("注册")
+    page.click("button:has-text(\"注册\")")
+
+    # Close page
+    page.close()
+
+    # ---------------------
+    context.close()
+    browser.close()
+
+
+with sync_playwright() as playwright:
+    run(playwright)
