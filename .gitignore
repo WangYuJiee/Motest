@@ -1,0 +1,28 @@
+##ignore this folder##
+/target/
+/.idea/
+/.settings/
+/.vscode/
+/__pycache__/
+
+
+.classpath
+.project
+.settings
+.idea
+
+# ignore file
+*.7z
+*.gz
+*.rar
+*.tar
+*.zip
+*.log
+*.holder
+*.pyc
+*.pid
+*.bak
+*.dat
+*.dir
+*.lock
+
