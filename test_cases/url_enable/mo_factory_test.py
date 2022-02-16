@@ -78,6 +78,9 @@ class Generator:
         page.set_default_timeout(30000)
         # page.goto("https://momodel.cn/")
         page.goto(url)
+
+        # 在这里判断元素
+
         # assert page.url == "https://momodel.cn/"
         # page.screenshot(path=f'{111}.png')
 
@@ -150,8 +153,11 @@ class Generator:
         :param page:
         :return:
         """
+
+
         all_items = page.query_selector_all('a')
         for item in all_items:
+            # 获取每个url的时候，可以存一个url结构（url,相关内容，比如一个map）
             # 判断元素 示例
             # book = {}
             # name_el = item.query_selector('h3')
