@@ -3,7 +3,7 @@
 介绍： 这是一个基于 [Seldom](https://github.com/SeldomQA/seldom) 测试框架实现的自动化项目。
 ## environment
 ```bash
-python 3.7
+python 3.7+
 ```
 
 
