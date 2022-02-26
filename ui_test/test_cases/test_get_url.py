@@ -5,7 +5,7 @@
 """
 import logging
 
-from test_cases.url_enable.mo_factory_test import Generator
+from ui_test.test_cases.url_enable.mo_factory_test import Generator
 
 """
 page object model

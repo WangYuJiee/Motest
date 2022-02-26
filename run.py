@@ -8,7 +8,7 @@ from seldom import Seldom
 
 if __name__ == '__main__':
     base_url = ""
-    seldom.main(path="./test_cases",
+    seldom.main(path="ui_test/test_cases",
                 # base_url=base_url,
                 title="Mo",
                 debug=True,
