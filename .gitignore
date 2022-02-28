@@ -5,6 +5,8 @@
 /.vscode/
 /__pycache__/
 /logs/
+/reports/
+/venv/
 
 
 .classpath

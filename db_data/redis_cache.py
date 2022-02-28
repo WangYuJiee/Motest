@@ -16,10 +16,6 @@ redis_kwargs = {
     "password": redis_conf.PASSWORD
 }
 
-# redis中存储delay_alarm的默认参数,将延时的告警单独存储在一个redis数据库中，减少订阅服务的调用次数
-alarm_redis_kwargs = copy.deepcopy(redis_kwargs)
-# alarm_redis_kwargs['db'] = redis_conf.CACHE_DELAY_ALARM_DB
-
 
 class RedisCacheData(object):
     """

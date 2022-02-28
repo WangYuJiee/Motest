@@ -3,16 +3,14 @@
     @Author: 49173
     date: 2022-02-15
 """
-import logging
-
-from ui_test.test_cases.url_enable.mo_factory_test import Generator
-
 """
 page object model
 ```
 > pip
 ```
 """
+import logging
+from ui_test.test_cases.url_enable.mo_factory_test import Generator
 import seldom
 
 
