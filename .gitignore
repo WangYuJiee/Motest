@@ -1,9 +1,12 @@
-##ignore this folder##
+## ignore this folder##
 /target/
 /.idea/
 /.settings/
 /.vscode/
 /__pycache__/
+/logs/
+/reports/
+/venv/
 
 
 .classpath
@@ -11,7 +14,7 @@
 .settings
 .idea
 
-# ignore file
+## ignore file
 *.7z
 *.gz
 *.rar
@@ -25,4 +28,5 @@
 *.dat
 *.dir
 *.lock
+*.html
 
