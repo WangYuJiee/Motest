@@ -1,8 +1,5 @@
 # -*- coding: UTF-8 -*-
-import copy
 import pickle
-import time
-
 from redis import ConnectionError, Redis, StrictRedis
 
 
