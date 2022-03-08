@@ -5,11 +5,11 @@ from seldom.request import ResponseResult
 from config import request_info
 from config.api_url import APPROVAL
 from config.log import LOG
-from utility.requests_interface import RoomRequest
+from utility.requests_interface import BaseRequest
 from utility.utility import get_this_time
 
 
-class ApprovalTest(RoomRequest):
+class ApprovalTest(BaseRequest):
     """
     审批管理
     """
