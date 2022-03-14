@@ -33,7 +33,7 @@ users = {
     "check_phone_exist&3": ["/user/check_phone_exist", "get"],  # /user/check_phone_exist	# get	注册时检查手机号是否已存在
     "check_email_belong_user&3": ["/user/check_email_belong_user", "get"],
     # /user/check_email_belong_user	# get	检查邮箱是否属于用户
-    "/user/login&4": ["/user/login", "post"],  # /user/login	# post	用户账号(用户名/邮箱/手机号)密码登录
+    "login&4": ["/user/login", "post"],  # /user/login	# post	用户账号(用户名/邮箱/手机号)密码登录
     "session_login&3": ["/user/session_login", "get"],  # /user/session_login	# get	设置session和cookie
     "register&4": ["/user/register", "post"],  # /user/register	# post	用户注册
     "temp_user&5": ["/user/temp_user", "put"],  # /user/temp_user	# put	临时用户账号登录
@@ -51,6 +51,7 @@ users = {
     "reset_password_email&4": ["/user/reset_password_email", "post"],  # /user/reset_password_email	# post	邮箱重置密码
 }
 
+# 课程接口
 cources = {
     "course&3": ["/course", "get"],  # /course	get	个人课程/所有课程
     "course&5": ["/course", "put"],  # /course	put	管理员发布课程
