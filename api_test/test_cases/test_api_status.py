@@ -3,8 +3,10 @@
     @Author: 49173
     date: 2022-03-08
 """
+import requests
 import seldom
 from seldom import file_data, data
+from seldom.request import ResponseResult
 
 from config.api_url import GLOBLE_URL
 from utility.requests_interface import BaseRequest
@@ -33,10 +35,11 @@ class EnableApi(BaseRequest):
         """
 
         if parameter:
-            url = url+str(parameter)
-        print(GLOBLE_URL+url, method, _data, parameter, desc)
-        self.request(url=url, method=method, data=_data)
-        self.assertStatusCode(200)
+            url = url + str(parameter)
+        print(GLOBLE_URL + url, method, _data, parameter, desc)
+        self.request_data(url=GLOBLE_URL + url, method=method, data=_data)
+        print(ResponseResult.response)
+        # self.assertStatusCode(200)
 
 
 if __name__ == '__main__':
