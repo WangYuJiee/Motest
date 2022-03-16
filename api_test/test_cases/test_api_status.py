@@ -37,8 +37,8 @@ class EnableApi(BaseRequest):
         if parameter:
             url = url + str(parameter)
         print(GLOBLE_URL + url, method, _data, parameter, desc)
-        self.request_data(url=GLOBLE_URL + url, method=method, data=_data)
-        print(ResponseResult.response)
+        res = self.request_data(url=GLOBLE_URL + url, method=method, data=_data)
+        print(res.json())
         # self.assertStatusCode(200)
 
 
