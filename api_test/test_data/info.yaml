@@ -1,0 +1,23 @@
+login1:
+  - - admin
+    - admin123
+  - - guest
+    - guest123
+login3:
+  - username: Tom
+    password: tom123
+    email: 1212@qq.com
+    params:
+      username: 1213
+      login: 5677
+  - username: Tom
+    password: tom123
+    email: 1212@qq.com
+    params:
+      username: 1213
+      login: 5677
+login2:
+  - username: Tom
+    password: tom123
+  - username: Jerry
+    password: jerry123
