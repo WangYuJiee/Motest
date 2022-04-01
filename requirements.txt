@@ -3,4 +3,4 @@ loguru==0.5.3
 playwright==1.17.2
 redis==3.4.1
 requests==2.25.1
-seldom==2.3.3
+seldom==2.4.2
