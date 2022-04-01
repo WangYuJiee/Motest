@@ -1,0 +1,57 @@
+#path: /user/send_verification_code_email/
+
+data:
+  - - title: 正确的邮箱地址
+    - r12bu1krs6@bccto.cc
+    - response: success
+    - 200
+
+  - - title: 错误的邮箱格式
+    - 123456.com
+    - message: Invalid email
+    - 400
+
+#path: /user/check_email_exist
+
+data2:
+  - - title: 邮箱已存在
+    - email: tedkl3ps@bccto.cc
+    - response: true
+    - 200
+
+  - - title: 邮箱不存在
+    - email: 312321@bccto.cc
+    - response: false
+    - 200
+
+  - - title: 邮箱格式错误
+    - email: 31232cc
+    - errors:
+        email: "用户注册的 email "
+    - 400
+
+#path: /user/check_email_belong_user
+
+data3:
+  - - title: 新邮箱不能和旧邮箱相同
+    - email: 2231231@qq.com
+    - is_user_email: true
+      response: true
+    - 200
+
+  - - title: 邮箱未被占用
+    - email: 998822@cc.com
+    - response: false
+    - 200
+
+  - - title: 邮箱格式错误
+    - email: 123458.com
+    - errors:
+        email: "用户注册的 email "
+    - 400
+
+  - - title: 邮箱已被占用
+    - email: 498593970@qq.com
+    - is_user_email: false
+      response: true
+    - 200

@@ -1,0 +1,31 @@
+#path: /user/send_verification_code/
+
+data:
+  - - title: 正确的手机号
+    - 18425267312
+    - response: success
+    - 200
+
+  - - title: 格式错误的手机号
+    - 1111111
+    - message: Invalid phone
+    - 400
+
+#path: /user/check_phone_exist
+
+data2:
+  - - title: 手机号已存在
+    - phone: 15336535099
+    - response: true
+    - 200
+
+  - - title: 手机号不存在
+    - phone: 15223234556
+    - response: false
+    - 200
+
+  - - title: 无效手机号
+    - phone: 1522323453223123213
+    - errors:
+        phone: 无效的手机号
+    - 400

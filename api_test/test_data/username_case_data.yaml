@@ -1,0 +1,33 @@
+#path: /user/check_username_exist
+
+data:
+  - - title: 用户已存在
+    - username: luxu99
+    - response: true
+    - 200
+
+  - - title: 用户不存在
+    - username: 7788
+    - response: false
+    - 200
+
+  - - title: 用户名过长
+    - username:  撒打算大娃恶气@! 撒打算大娃恶气@! 撒打算大娃恶气@! 撒打算大娃恶气@! 撒打算大娃恶气@! 撒打算大娃恶气@! 撒打算大娃恶气@! 撒打算大娃恶气@! 撒打算大娃恶气@! 撒
+    - message: 用户名太长
+    - 400
+
+#path: /user/session_login
+
+data1:
+  - - titele: 用户正常登录
+    - luxu99
+    - "111111"
+    - state: login
+      user:
+        username: luxu99
+    - 200
+
+#  - - titele: 登录密码错误
+#    - luxu99
+#    - "999321"
+#
