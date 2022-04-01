@@ -17,6 +17,7 @@
 """
 # 项目地址
 BASE_URL = "http://192.168.30.154:8899"
+# BASE_URL = "http://10.52.22.14:15489/"
 
 SUB = '/pyapi'
 
@@ -68,3 +69,6 @@ cources = {
     "course&4": ["/project/course", "post"],  # /project/course	post	获取或创建课程项目
 }
 
+APPROVAL = {
+
+}

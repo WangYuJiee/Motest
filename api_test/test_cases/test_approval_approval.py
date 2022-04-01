@@ -54,7 +54,7 @@ class ApprovalTest(BaseRequest):
         self.get_data(self.paaroval_url, params=params)
         # 断言
         print(ResponseResult.status_code)
-        self.assertStatusCode(401)
+        self.assertStatusCode(200)
         try:
             print("count: ", self.response['count'])
         except Exception as e:
