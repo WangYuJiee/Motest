@@ -14,7 +14,7 @@ et-xmlfile==1.1.0
 Flask==2.1.1
 greenlet==1.1.2
 h11==0.13.0
-idna==3.3
+idna==2.5
 importlib-metadata==4.11.2
 importlib-resources==5.4.0
 itsdangerous==2.1.2
@@ -31,5 +31,5 @@ packaging==21.3
 parameterized==0.8.1
 playwright==1.17.2
 redis==3.4.1
-requests==2.25.1
-seldom==2.3.3
+requests==2.27.1
+seldom==2.4.2
