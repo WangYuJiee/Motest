@@ -1,10 +1,17 @@
 import time
+from contextlib import contextmanager
 from datetime import datetime
-import xlrd,openpyxl,json
+import xlrd
+import openpyxl
+import json
 import requests
 from utility.JsbnRSA import JsbnRSA
 from config.api_url import GLOBLE_URL
+
+
 # from JsbnRSA import JsbnRSA
+from utility.local_storage import local_data
+
 
 def get_this_time(UTC_TIME=True):
     """
@@ -20,6 +27,7 @@ def get_this_time(UTC_TIME=True):
         # 获取当前时区的时间 -- datetime类型值
         this_time = datetime.now()
     return datetime.fromtimestamp(time.mktime(this_time.timetuple()))
+
 
 # def res_check(res, res_check):
 #     '''
@@ -48,14 +56,25 @@ def get_this_time(UTC_TIME=True):
 #         sheet.cell(col8+2,8,json.dumps(responses_list[col8],ensure_ascii=False))
 #     book.save(excel_path)
 
-def login(username,pwd):
+# 全局token, cookie
+
+cookies = None
+Token = ""
+
+
+def login(username, pwd):
     """
     测试登录
     获取cookie对password加密
     """
-    global session
+    global session, cookie
     session = requests.session()
-    r = session.get(GLOBLE_URL + '/user/session_login')
+    try:
+
+        r = session.get(GLOBLE_URL + '/user/session_login')
+    except Exception as e:
+        raise Exception("Session login error")
+    cookies = r.cookies
     cookie = next(
         (cookie for cookie in r.cookies
          if cookie.name == 'public_key'), None
@@ -77,13 +96,26 @@ def login(username,pwd):
     })
     return result
 
+
 def logout():
     session.post(GLOBLE_URL + '/user/logout')
     return "success"
 
 
-
-
+@contextmanager
+def login_decorator():
+    try:
+        r = login("RS74", "123456")
+        global Token
+        if r:
+            Token = r.json()['token']
+            # 设置全局变量
+            local_data.__setattr__("token", Token)
+        yield
+    except Exception as e:
+        print("error: ", e)
+    finally:
+        pass
 
 # if __name__ == '__main__':
 #

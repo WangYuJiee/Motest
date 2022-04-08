@@ -1,0 +1,10 @@
+#
+
+
+course:
+  - title: 获取正确的课程
+    params:
+      activeTopTab: official
+      page_no: 1
+      sort: path
+    statu_code: 200

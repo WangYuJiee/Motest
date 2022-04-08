@@ -42,7 +42,7 @@ class TestYaml(BaseRequest):
     @needs_yaml
     @file_data(parent_path+'/test_data/test_data_dict_dict.yaml')
     def test_file_data_yaml_dict_dict(self, start, end, value):
-        print(start,end, value)
+        print(start, end, value)
         # self.assertLess(start, end)
         # self.assertLess(value, end)
         # self.assertGreater(value, start)
