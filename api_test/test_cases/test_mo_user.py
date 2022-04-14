@@ -5,7 +5,7 @@ import requests
 from config.api_url import GLOBLE_URL
 from utility.requests_interface import BaseRequest
 from utility.utility import login, logout
-from  utility.JsbnRSA import JsbnRSA
+from utility.JsbnRSA import JsbnRSA
 import json
 
 
@@ -16,7 +16,7 @@ class test_mo_user(BaseRequest):
         # r= login("luxu99","111111")
         # Token  = r.json()['token']
         # print(Token)
-        r= login("luxu99","111111")
+        r = login("luxu99", "111111")
         global Token
         Token = r.json()['token']
 
@@ -26,66 +26,73 @@ class test_mo_user(BaseRequest):
         logout()
 
     @file_data("email_case_data.yaml", key="data")
-    def test_case_send_verification_code_email(self, _, email, expectMessage, StatusCode):
-        '''注册/登录时, 发送验证码到邮箱'''
+    def test_case_send_verification_code_email(
+            self, _, email, expectMessage, StatusCode):
+        """注册/登录时, 发送验证码到邮箱"""
         url = '/user/send_verification_code_email/' + email
-        self.get(url=GLOBLE_URL+url)
+        self.get(url=GLOBLE_URL + url)
         assert_json = expectMessage
         self.assertJSON(assert_json)
         # self.assertPath("response",expectMessage)
         self.assertStatusCode(StatusCode)
 
-
-    @file_data("phone_case_data.yaml",key="data")
-    def test_send_verification_code_phone(self, _, phone, expectMessage, StatusCode):
-        '''给手机发送验证码'''
+    @file_data("phone_case_data.yaml", key="data")
+    def test_send_verification_code_phone(
+            self, _, phone, expectMessage, StatusCode):
+        """给手机发送验证码"""
         url = '/user/send_verification_code/' + str(phone)
-        self.get(url=GLOBLE_URL+url)
+        self.get(url=GLOBLE_URL + url)
         assert_json = expectMessage
         self.assertJSON(assert_json)
         self.assertStatusCode(StatusCode)
 
-
-    @file_data("username_case_data.yaml",key="data")
-    def test_check_username_exist(self, _, username, expectMessage, StatusCode):
-        '''检查用户名是否已存在'''
+    @file_data("username_case_data.yaml", key="data")
+    def test_check_username_exist(
+            self, _, username, expectMessage, StatusCode):
+        """检查用户名是否已存在"""
         url = '/user/check_username_exist'
-        self.get(url=GLOBLE_URL+url, params=username)
+        self.get(url=GLOBLE_URL + url, params=username)
         assert_json = expectMessage
         self.assertJSON(assert_json)
         self.assertStatusCode(StatusCode)
 
-
-    @file_data("email_case_data.yaml",key="data2")
+    @file_data("email_case_data.yaml", key="data2")
     def test_check_email_exist(self, _, email, expectMessage, StatusCode):
-        '''注册时检查邮箱是否已存在'''
+        """注册时检查邮箱是否已存在"""
         url = '/user/check_email_exist'
-        self.get(url=GLOBLE_URL+url, params=email)
+        self.get(url=GLOBLE_URL + url, params=email)
         assert_json = expectMessage
         self.assertJSON(assert_json)
         self.assertStatusCode(StatusCode)
 
-    @file_data("phone_case_data.yaml",key='data2')
+    @file_data("phone_case_data.yaml", key='data2')
     def test_check_phone_exist(self, _, phone, expectMessage, StatusCode):
-        '''注册时检查手机号是否已存在'''
+        """注册时检查手机号是否已存在"""
         url = '/user/check_phone_exist'
-        self.get(url=GLOBLE_URL+url, params=phone)
+        self.get(url=GLOBLE_URL + url, params=phone)
         assert_json = expectMessage
         self.assertJSON(assert_json)
         self.assertStatusCode(StatusCode)
 
-    @file_data("email_case_data.yaml",key='data3')
-    def test_check_email_belong_user(self, _, email, expectMessage, StatusCode):
-        '''检查邮箱是否属于用户'''
+    @file_data("email_case_data.yaml", key='data3')
+    def test_check_email_belong_user(
+            self, _, email, expectMessage, StatusCode):
+        """检查邮箱是否属于用户"""
         url = '/user/check_email_belong_user'
-        self.post(url=GLOBLE_URL+url,json=email,headers={"Authorization" : "Bearer " + Token})
+        self.post(
+            url=GLOBLE_URL +
+            url,
+            json=email,
+            headers={
+                "Authorization": "Bearer " +
+                Token})
         assert_json = expectMessage
         self.assertJSON(assert_json)
         self.assertStatusCode(StatusCode)
 
-    @file_data("username_case_data.yaml",key='data1')
-    def test_login(self, _, username, pwd, expectMessage, StatusCode):
-        '''用户账号(用户名 / 邮箱 / 手机号)密码登录'''
+    @file_data("username_case_data.yaml", key='data1')
+    def test_login(self, _, username, pwd, expect_message, StatusCode):
+        """用户账号(用户名 / 邮箱 / 手机号)密码登录"""
         session = requests.session()
         r = session.get(GLOBLE_URL + '/user/session_login')
         cookie = next(
@@ -112,16 +119,20 @@ class test_mo_user(BaseRequest):
         #     'X-Language': 'zh-CN'
         # })
         url = '/user/login'
-        self.post(GLOBLE_URL+url,json=body,headers=headers,cookies=r.cookies)
-        assert_json = expectMessage
+        self.post(
+            GLOBLE_URL + url,
+            json=body,
+            headers=headers,
+            cookies=r.cookies)
+        assert_json = expect_message
         self.assertJSON(assert_json)
         self.assertStatusCode(StatusCode)
 
     def test_session_login(self):
-        '''设置session和cookie'''
+        """设置session和cookie"""
         url = '/user/session_login'
-        self.get(url=GLOBLE_URL+url)
-        assert_json = {"response" : "session login success"}
+        self.get(url=GLOBLE_URL + url)
+        assert_json = {"response": "session login success"}
         self.assertJSON(assert_json)
         self.assertStatusCode(200)
     #
@@ -141,11 +152,5 @@ class test_mo_user(BaseRequest):
     #
 
 
-
-
-
-
-
 if __name__ == '__main__':
     seldom.main(debug=True)
-

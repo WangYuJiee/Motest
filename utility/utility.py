@@ -103,7 +103,7 @@ def logout():
 
 
 @contextmanager
-def login_decorator():
+def requires_auth():
     try:
         r = login("RS74", "123456")
         global Token
@@ -115,7 +115,7 @@ def login_decorator():
     except Exception as e:
         print("error: ", e)
     finally:
-        pass
+        logout()
 
 # if __name__ == '__main__':
 #

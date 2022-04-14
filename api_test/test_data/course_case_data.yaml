@@ -1,10 +1,19 @@
 #
 
 
-course:
+series:
   - title: 获取正确的课程
     params:
       activeTopTab: official
       page_no: 1
       sort: path
+    statu_code: 200
+
+course:
+  - title: 获取正确的我的课程
+    params:
+      page_no: 1
+      page_size: 50
+      group: my
+      is_backstage: false
     statu_code: 200

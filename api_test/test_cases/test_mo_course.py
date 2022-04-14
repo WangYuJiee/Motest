@@ -5,26 +5,35 @@
     @Date:  2022-04-06
     @Description:
 """
+import seldom
 from seldom import file_data
 from seldom.request import ResponseResult
-
 
 from config.api_url import GLOBLE_URL
 from utility.local_storage import local_data
 from utility.requests_interface import BaseRequest
-from utility.utility import login_decorator, Token
+from utility.utility import Token, requires_auth
 
 
 class CourseTest(BaseRequest):
     """Course Test"""
 
-    def test_get_course(self):
+    @file_data("../test_data/course_case_data.yaml", key="course")
+    @requires_auth()
+    def test_get_course(self, _, params, status_code):
         """个人课程/所有课程"""
 
-        pass
+        url = "/course"
+        # 获取本地变量
+        token = local_data.__getattr__("token")
+        self.get(url=GLOBLE_URL + url, params=params, headers={
+            "Authorization": "Bearer " + token})
+        ret = ResponseResult.response
+        # print("ret: ", str(ret))
+        self.assertStatusCode(status_code)
 
-    @file_data("../test_data/course_case_data.yaml", key="course")
-    @login_decorator()
+    @file_data("../test_data/course_case_data.yaml", key="series")
+    @requires_auth()
     def test_get_series(self, _, params, status_code):
         """学习路径的系列课程"""
         url = "/course/series"
@@ -33,7 +42,7 @@ class CourseTest(BaseRequest):
         self.get(url=GLOBLE_URL + url, params=params, headers={
             "Authorization": "Bearer " + token})
         ret = ResponseResult.response
-        print("ret: ", str(ret))
+        # print("ret: ", str(ret))
         self.assertStatusCode(status_code)
 
     def test_get_individual(self):
@@ -70,3 +79,7 @@ class CourseTest(BaseRequest):
     def test_post_enroll(self):
         """学习课程"""
         pass
+
+
+if __name__ == '__main__':
+    seldom.main(debug=True)
