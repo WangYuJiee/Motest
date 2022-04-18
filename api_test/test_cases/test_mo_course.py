@@ -8,11 +8,10 @@
 import seldom
 from seldom import file_data
 from seldom.request import ResponseResult
-
 from config.api_url import GLOBLE_URL
 from utility.local_storage import local_data
 from utility.requests_interface import BaseRequest
-from utility.utility import Token, requires_auth
+from utility.utility import requires_auth
 
 
 class CourseTest(BaseRequest):
