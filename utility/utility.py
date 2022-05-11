@@ -7,20 +7,17 @@ import json
 import requests
 from utility.JsbnRSA import JsbnRSA
 from config.api_url import GLOBLE_URL
-
-
-# from JsbnRSA import JsbnRSA
 from utility.local_storage import local_data
 
 
-def get_this_time(UTC_TIME=True):
+def get_this_time(utc_time=True):
     """
-    获取当前的UTC_TIME
-    :param UTC_TIME:
+    获取当前的utc_time
+    :param utc_time:
     :return:
     """
     # this_time = datetime.now().strftime("%Y%m%d %H:%M:%S")
-    if UTC_TIME:
+    if utc_time:
         # 获取当前的 UTC时间 -- datetime类型值
         this_time = datetime.utcnow()
     else:
@@ -98,24 +95,28 @@ def login(username, pwd):
 
 
 def logout():
-    session.post(GLOBLE_URL + '/user/logout')
-    return "success"
+    try:
+        session.post(GLOBLE_URL + '/user/logout')
+        local_data.__delattr__("token")
+        return "success"
+    except Exception as e:
+        raise Exception("Logout error")
 
 
 @contextmanager
 def requires_auth():
     try:
-        r = login("RS74", "123456")
-        global Token
-        if r:
-            Token = r.json()['token']
-            # 设置全局变量
-            local_data.__setattr__("token", Token)
+        if not local_data.__getattr__("token"):
+            r = login("RS74", "123456")
+            global Token
+            if r:
+                Token = r.json()['token']
+                # 设置全局变量
+                local_data.__setattr__("token", Token)
         yield
     except Exception as e:
-        print("error: ", e)
-    finally:
-        logout()
+        print("Login error: ", e)
+        return False
 
 # if __name__ == '__main__':
 #

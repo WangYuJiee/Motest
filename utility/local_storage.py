@@ -11,7 +11,7 @@ except ImportError:
     try:
         from thread import get_ident as _get_ident
     except ImportError:
-        from _thread import get_ident  as _get_ident
+        from _thread import get_ident as _get_ident
 
 
 class Local(object):
@@ -28,7 +28,10 @@ class Local(object):
         self.__storage__.pop(self.__ident_func__(), None)
 
     def __getattr__(self, name):
-        return self.__storage__[self.__ident_func__()][name]
+        try:
+            return self.__storage__[self.__ident_func__()][name]
+        except KeyError:
+            return False
 
     def __setattr__(self, name, value):
         ident = self.__ident_func__()
@@ -46,3 +49,9 @@ class Local(object):
 
 
 local_data = Local()
+
+if __name__ == '__main__':
+    # local_data.__setattr__("token", "123")
+    dd = local_data.__getattr__("token")
+    if not dd:
+        print(dd)

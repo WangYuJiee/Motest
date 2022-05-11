@@ -30,3 +30,10 @@ course:
       group: my
       is_backstage: false
     statu_code: 200
+
+status:
+  - title: 获取正确的我的课程状态
+    params:
+      course_id: ["12","45"]
+      is_trial: True
+    statu_code: 200
