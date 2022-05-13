@@ -73,7 +73,7 @@ def login(username, pwd):
         raise Exception("Session login error")
     cookies = r.cookies
     cookie = next(
-        (cookie for cookie in r.cookies
+        (cookie for cookie in cookies
          if cookie.name == 'public_key'), None
     )
     if not cookie:
@@ -91,11 +91,13 @@ def login(username, pwd):
         'X-From': 'oooo.com',
         'X-Language': 'zh-CN'
     })
+    # local_data.__setattr__("session", session)
     return result
 
 
 def logout():
     try:
+        # session = local_data.__getattr__("session")
         session.post(GLOBLE_URL + '/user/logout')
         local_data.__delattr__("token")
         return "success"
@@ -104,15 +106,22 @@ def logout():
 
 
 @contextmanager
-def requires_auth():
+def requires_auth(username=None, password=None):
+    """ 每次用户登录需要有个闭环，最后需要登出"""
+    if username is None and password is None:
+        user = "RS74"
+        pwd = "123456"
+    else:
+        user = username
+        pwd = password
     try:
         if not local_data.__getattr__("token"):
-            r = login("RS74", "123456")
-            global Token
+            r = login(user, pwd)
+            # global Token
             if r:
-                Token = r.json()['token']
+                token = r.json()['token']
                 # 设置全局变量
-                local_data.__setattr__("token", Token)
+                local_data.__setattr__("token", token)
         yield
     except Exception as e:
         print("Login error: ", e)

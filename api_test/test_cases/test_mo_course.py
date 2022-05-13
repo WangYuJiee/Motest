@@ -26,8 +26,8 @@ class MoCourseTest(BaseRequest):
         print("开始测试")
         self._token = local_data.__getattr__("token")
 
-    @file_data("../test_data/course_case_data.yaml", key="course")
-    def test_get_course(self, _, params, status_code):
+    @file_data("../test_data/course_case_data.yaml", key="course&3")
+    def test_get_course(self, _, params, response, status_code):
         """个人课程/所有课程"""
 
         url = "/course"
@@ -35,30 +35,38 @@ class MoCourseTest(BaseRequest):
         token = self._token
         self.get(url=GLOBLE_URL + url, params=params, headers={
             "Authorization": "Bearer " + token})
-        ret = ResponseResult.response
+        # ret = ResponseResult.response
         # print("ret: ", str(ret))
+        print(response)
         self.assertStatusCode(status_code)
 
     # @skip_if(local_data.__getattr__("token"), "login error")
     @file_data("../test_data/course_case_data.yaml", key="series")
-    def test_get_series(self, _, params, status_code):
+    def test_get_series(self, _, params, response, status_code):
         """学习路径的系列课程"""
         url = "/course/series"
         # 获取本地变量
         token = self._token
         self.get(url=GLOBLE_URL + url, params=params, headers={
             "Authorization": "Bearer " + token})
-        ret = ResponseResult.response
+        # ret = ResponseResult.response
         # print("ret: ", str(ret))
+        print(response)
         self.assertStatusCode(status_code)
 
     def test_get_individual(self):
         """我的课程"""
         pass
 
-    def test_get_comment(self):
+    @file_data("../test_data/course_case_data.yaml", key="comment")
+    def test_get_comment(self, _, params, response, status_code):
         """个人课程评分"""
-        pass
+        url = GLOBLE_URL + "/course/comment"
+        token = self._token
+        self.get(url, params=params, headers={
+            "Authorization": "Bearer " + token})
+        # self.assertJSON()
+        self.assertStatusCode(status_code)
 
     def test_get_rating(self):
         """课程评分"""
@@ -71,16 +79,6 @@ class MoCourseTest(BaseRequest):
     def test_get_status(self):
         """课程状态 加入人数,完成人数"""
         pass
-
-    course_ret = [
-        {
-            "course_id": "121212",
-            "232": "334"
-        },
-        {
-            "course_id": "343434"
-        },
-    ]
 
     # @skip()
     # @file_data("../test_data/course_case_data.yaml", key="status")
@@ -114,6 +112,8 @@ class MoCourseTest(BaseRequest):
 
     def test_post_enroll(self):
         """学习课程"""
+        url = GLOBLE_URL + "/course/enroll"
+        self.post(url)
         pass
 
 

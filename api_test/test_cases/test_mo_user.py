@@ -26,6 +26,7 @@ class MoUserTest(BaseRequest):
     @classmethod
     def end_class(cls):
         print("结束测试")
+        # 登录闭环
         logout()
 
     @file_data("email_case_data.yaml", key="data")
@@ -117,7 +118,7 @@ class MoUserTest(BaseRequest):
             'X-From': 'oooo.com',
             'X-Language': 'zh-CN'
         }
-        # result = session.post(GLOBLE_URL + '/user/login', json=body, headers={
+        # result = session.post(GLOBE_URL + '/user/login', json=body, headers={
         #     'X-From': 'oooo.com',
         #     'X-Language': 'zh-CN'
         # })
@@ -133,7 +134,7 @@ class MoUserTest(BaseRequest):
 
     def test_session_login(self):
         """设置session和cookie"""
-        url = '/user/session_login'
+        url = GLOBLE_URL + '/user/session_login'
         self.get(url=GLOBLE_URL + url)
         assert_json = {"response": "session login success"}
         self.assertJSON(assert_json)
@@ -151,63 +152,87 @@ class MoUserTest(BaseRequest):
     #     self.post(url=GLOBLE_URL+url,json=body)
     #     requests.delete(GLOBLE_URL + f'/git/{user_ID}/delete_user_path')
     #
-    def test_temp_user(self, ):
+
+    @file_data("user_case_data.yaml", key='phone_verification_code')
+    def test_get_send_verification_code(self, response, phone):
+        """获取手机验证码"""
+        url = GLOBLE_URL + "/user/send_verification_code"
+
+        self.get(url, params=phone)
+        self.assertJSON(response)
+
+    def test_get_send_verification_code_email(self, response, email):
+        """邮箱验证码"""
+        url = GLOBLE_URL + "/user/send_verification_code_email"
+        self.get(url, params=email)
+        self.assertJSON(response)
+
+    def test_put_temp_user(self, ):
         """临时用户账号登录"""
-        url = "/user/temp_user"
+        url = GLOBLE_URL + "/user/temp_user"
         self.put(url)
 
-    def test_login_or_register_phone(self):
+    def test_post_login_or_register_phone(self):
         """手机号登录或注册"""
-        url = "/user/login_or_register_phone"
-        self.post()
+        url = GLOBLE_URL + "/user/login_or_register_phone"
+        self.post(url)
 
-    def test_login_with_phone(self):
+    def test_login_with_phone(self, _, phone, code, status_code):
         """手机号登录"""
-        url = "/user/login_with_phone"
-        self.post()
+        url = GLOBLE_URL + "/user/login_with_phone"
+        self.test_get_send_verification_code(phone)
+        body = {
+            "phone": phone,
+            "code": code
+        }
+        self.post(url, json=body)
+        self.assertStatusCode(status_code)
 
     def test_register_with_phone(self):
         """手机号注册"""
-        url = "/user/register_with_phone"
+        url = GLOBLE_URL + "/user/register_with_phone"
         self.post()
 
     def test_login_or_register_email(self):
         """邮箱登录或注册"""
 
-        url = "/user/login_or_register_email"
+        url = GLOBLE_URL + "/user/login_or_register_email"
         self.post()
 
     def test_login_with_email(self):
         """邮箱登录"""
-        url = "/user/login_with_email"
+        url = GLOBLE_URL + "/user/login_with_email"
         self.post()
 
     def test_register_with_email(self):
         """邮箱注册"""
-        url = "/user/register_with_email"
+        url = GLOBLE_URL + "/user/register_with_email"
         self.post()
 
     def test_verify_code_phone(self):
         """验证手机验证码"""
-        url = "/user/verify_code_phone"
+        url = GLOBLE_URL + "/user/verify_code_phone"
         self.post()
 
     def test_reset_password_phone(self):
         """手机重置密码"""
 
-        url = "/user/reset_password_phone"
+        url = GLOBLE_URL + "/user/reset_password_phone"
         self.post()
 
     def test_verify_code_email(self):
         """验证邮箱验证码"""
-        url = "/user/verify_code_email"
+        url = GLOBLE_URL + "/user/verify_code_email"
         self.post()
 
-    def test_reset_password_email(self):
+    @file_data("user_case_data.yaml", key='reset_password_email')
+    def test_reset_password_email(self, _, params, status_code):
         """邮箱重置密码"""
         # new_password、new_check_password、email
-        url = "/user/reset_password_email"
-        self.post()
+        url = GLOBLE_URL + "/user/reset_password_email"
+        body = params
+        self.post(url, params=body)
+        self.assertStatusCode(status_code)
 
 
 if __name__ == '__main__':

@@ -1,0 +1,24 @@
+#
+
+reset_password_email:
+  - title: 正确重设密码
+    params:
+      new_password: 123
+      new_check_password: 123
+      email: 123
+    statu_code: 200
+
+
+phone_verification_code:
+  - title: 获取正确的验证码
+    parmas:
+      phone: "15890187653"
+    respnoe:
+      response: "success"
+    status_code: 200
+  - title: 获取错误
+    parmas:
+      phone: "1589018"
+    respnoe:
+      message: "Invalid phone"
+    status_code: 400

@@ -1,39 +1,113 @@
-#
+##
+#    每个接口key为了唯一性保证，在接口名字后面加个请求方式
+#    1、OPTIONS
+#    2、HEA
+#    3、GET
+#    4、POST
+#    5、PUT
+#    6、DELETE
+#    7、TRACE
+#    8、CONNECT
+#    接口名字&请求方式
+##
 
-
+# /course/series
 series:
   - title: 获取正确的课程
     params:
       activeTopTab: official
       page_no: 1
       sort: path
+    response:
     statu_code: 200
   - title: 获取正确的课程
     params:
       activeTopTab: official
       page_no: 2
       sort: path
+    response:
     statu_code: 200
 
-course:
+# /course
+course&3:
   - title: 获取正确的我的课程
     params:
       page_no: 1
       page_size: 20
       group: my
+      type: all
+      learning_status: all
       is_backstage: false
+    response:
     statu_code: 200
   - title: 获取正确的我的课程
     params:
       page_no: 1
       page_size: 30
       group: my
+      type: official
+      learning_status: all
       is_backstage: false
+    response:
     statu_code: 200
 
+# /course
+course&5:
+  - title: 获取正确的我的课程
+    json:
+      query: 1
+      course_ids : []
+      hide_in_list: true
+      offline: true
+      is_public: true
+    response:
+    statu_code: 200
+
+#
 status:
   - title: 获取正确的我的课程状态
     params:
       course_id: ["12","45"]
       is_trial: True
+    response:
+    statu_code: 200
+
+# /course/comment
+comment:
+  - title: 课程评论
+    params:
+      course_id: ""
+    response:
+    statu_code: 200
+  - title: 课程评论
+    params:
+      course_id: ""
+    response:
+    statu_code: 200
+  - title: 课程评论
+    params:
+      course_id: ""
+    response:
+    statu_code: 200
+
+# /course/enroll
+enroll:
+  - title: ""
+    params:
+      course_id: "12"
+      course_unit_id: ""
+      status: ""
+      project_id: ""
+      is_trial: ""
+    response:
+    statu_code: 200
+
+  - title: ""
+    params:
+      course_id: "12"
+      course_unit_id: ""
+      status: ""
+      project_id: ""
+      is_trial: ""
+    response:
     statu_code: 200
