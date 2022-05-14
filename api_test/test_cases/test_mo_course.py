@@ -19,12 +19,13 @@ class MoCourseTest(BaseRequest):
 
     def __init__(self, *args, **kwargs):
         super(MoCourseTest, self).__init__(*args, **kwargs)
-        self._token = None
+        self.token = None
 
     @requires_auth()
     def start_class(self):
         print("开始测试")
-        self._token = local_data.__getattr__("token")
+        self.token = local_data.__getattr__("token")
+        print("token: ", local_data.__getattr__("token"), self.token)
 
     @file_data("../test_data/course_case_data.yaml", key="course&3")
     def test_get_course(self, _, params, response, status_code):
@@ -32,7 +33,8 @@ class MoCourseTest(BaseRequest):
 
         url = "/course"
         # 获取本地变量
-        token = self._token
+        # token = self.token
+        token = local_data.__getattr__("token")
         self.get(url=GLOBLE_URL + url, params=params, headers={
             "Authorization": "Bearer " + token})
         # ret = ResponseResult.response
@@ -46,7 +48,10 @@ class MoCourseTest(BaseRequest):
         """学习路径的系列课程"""
         url = "/course/series"
         # 获取本地变量
-        token = self._token
+        # token = self.token
+        token = local_data.__getattr__("token")
+        print("*******************")
+        print(token)
         self.get(url=GLOBLE_URL + url, params=params, headers={
             "Authorization": "Bearer " + token})
         # ret = ResponseResult.response
@@ -62,7 +67,9 @@ class MoCourseTest(BaseRequest):
     def test_get_comment(self, _, params, response, status_code):
         """个人课程评分"""
         url = GLOBLE_URL + "/course/comment"
-        token = self._token
+        # token = self.token
+        print("ddd: ", self.token)
+        token = local_data.__getattr__("token")
         self.get(url, params=params, headers={
             "Authorization": "Bearer " + token})
         # self.assertJSON()
@@ -86,7 +93,7 @@ class MoCourseTest(BaseRequest):
     #     """开始课程"""
     #     url = "/course/status"
     #     # 获取用户token
-    #     token = self._token
+    #     token = self.token
     #
     #     # # 获取具体课程的course_id
     #     # self.get(url='', params='', headers={
