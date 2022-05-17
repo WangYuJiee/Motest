@@ -74,21 +74,23 @@ status:
 
 # /course/comment
 comment:
-  - title: 课程评论
+  - title: 正确获取课程评论
     params:
-      course_id: ""
+      course_id: "60f02c635076ff487bce4c6f"
     response:
     statu_code: 200
-  - title: 课程评论
+  - title: 未登录获取课程评论
     params:
-      course_id: ""
+      course_id: "61b9b34113dd051934e99b25"
     response:
-    statu_code: 200
-  - title: 课程评论
+      message: "You are not logged in, please log in and use it again"
+    statu_code: 403
+  - title: 课程评论id不存在
     params:
-      course_id: ""
+      course_id: "5fd22947af9564c76a30dc4"
     response:
-    statu_code: 200
+
+    statu_code: 403
 
 # /course/enroll
 enroll:

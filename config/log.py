@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-'''日志模块'''
+"""日志模块"""
 import os
 import logbook
 from logbook.more import ColorizedStderrHandler
@@ -13,17 +13,17 @@ if not os.path.exists(LOG_DIR):
     file_stream = True
 
 
-def get_logger(name='serve-room', file_log=file_stream, level=''):
+def get_logger(name='mo_test', file_log=file_stream, level='ERROR'):
     """ get logger Factory function """
     logbook.set_datetime_format('local')
     ColorizedStderrHandler(bubble=False, level=level).push_thread()
     logbook.TimedRotatingFileHandler(
         os.path.join(LOG_DIR, '%s.log' % name),
-        date_format='%Y-%m-%d-%H', bubble=True, encoding='utf-8').push_thread()
+        date_format='%Y_%m_%d_%H', bubble=True, encoding='utf-8').push_thread()
     return logbook.Logger(name)
 
 
-LOG = get_logger(file_log=file_stream, level='INFO')
+LOG = get_logger(file_log=file_stream, level='ERROR')
 
 
 def logger(param):

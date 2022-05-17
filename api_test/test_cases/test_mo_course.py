@@ -8,10 +8,11 @@
 import seldom
 from seldom import file_data, skip, skip_if
 from seldom.request import ResponseResult
+
+from api_test.test_cases import BaseRequest
 from config.api_url import GLOBLE_URL
 from utility.local_storage import local_data
-from utility.requests_interface import BaseRequest
-from utility.utility import requires_auth
+from utility.utility import requires_auth, logout
 
 
 class MoCourseTest(BaseRequest):
@@ -21,21 +22,31 @@ class MoCourseTest(BaseRequest):
         super(MoCourseTest, self).__init__(*args, **kwargs)
         self.token = None
 
-    @requires_auth()
     def start_class(self):
         print("开始测试")
+        self.init_auth()
+
+    @requires_auth()
+    def init_auth(self):
         self.token = local_data.__getattr__("token")
-        print("token: ", local_data.__getattr__("token"), self.token)
+        print("token: ", self.token)
+
+    def end_class(self):
+        print("结束测试")
+        # 登录闭环
+        print("token: ", self.token)
+        logout()
 
     @file_data("../test_data/course_case_data.yaml", key="course&3")
     def test_get_course(self, _, params, response, status_code):
         """个人课程/所有课程"""
 
-        url = "/course"
+        url = GLOBLE_URL + "/course"
         # 获取本地变量
         # token = self.token
         token = local_data.__getattr__("token")
-        self.get(url=GLOBLE_URL + url, params=params, headers={
+        print("sss: ", token)
+        self.get_data(url=url, params=params, headers={
             "Authorization": "Bearer " + token})
         # ret = ResponseResult.response
         # print("ret: ", str(ret))
@@ -50,9 +61,9 @@ class MoCourseTest(BaseRequest):
         # 获取本地变量
         # token = self.token
         token = local_data.__getattr__("token")
-        print("*******************")
-        print(token)
-        self.get(url=GLOBLE_URL + url, params=params, headers={
+        # print("*******************")
+        # print(token)
+        self.get_data(url=GLOBLE_URL + url, params=params, headers={
             "Authorization": "Bearer " + token})
         # ret = ResponseResult.response
         # print("ret: ", str(ret))
@@ -63,16 +74,17 @@ class MoCourseTest(BaseRequest):
         """我的课程"""
         pass
 
+    @requires_auth()
     @file_data("../test_data/course_case_data.yaml", key="comment")
     def test_get_comment(self, _, params, response, status_code):
         """个人课程评分"""
         url = GLOBLE_URL + "/course/comment"
-        # token = self.token
-        print("ddd: ", self.token)
         token = local_data.__getattr__("token")
-        self.get(url, params=params, headers={
+        # print(token)
+        self.get_data(url=url, params=params, headers={
             "Authorization": "Bearer " + token})
-        # self.assertJSON()
+        print(response)
+        # self.assertJSON(response)
         self.assertStatusCode(status_code)
 
     def test_get_rating(self):
@@ -121,7 +133,6 @@ class MoCourseTest(BaseRequest):
         """学习课程"""
         url = GLOBLE_URL + "/course/enroll"
         self.post(url)
-        pass
 
 
 if __name__ == '__main__':
