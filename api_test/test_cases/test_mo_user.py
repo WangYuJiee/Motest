@@ -1,10 +1,9 @@
 import seldom
 from seldom import file_data, data
-from seldom.request import ResponseResult
 import requests
+from api_test.test_cases import BaseRequest
 from config.api_url import GLOBLE_URL
 from utility.local_storage import local_data
-from utility.requests_interface import BaseRequest
 from utility.utility import login, logout, requires_auth
 from utility.JsbnRSA import JsbnRSA
 import json

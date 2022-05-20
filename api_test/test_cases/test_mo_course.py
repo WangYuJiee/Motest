@@ -7,8 +7,6 @@
 """
 import seldom
 from seldom import file_data, skip, skip_if
-from seldom.request import ResponseResult
-
 from api_test.test_cases import BaseRequest
 from config.api_url import GLOBLE_URL
 from utility.local_storage import local_data
@@ -20,7 +18,8 @@ class MoCourseTest(BaseRequest):
 
     def __init__(self, *args, **kwargs):
         super(MoCourseTest, self).__init__(*args, **kwargs)
-        self.token = None
+        self.__token = None
+        # 存变量
 
     def start_class(self):
         print("开始测试")
@@ -28,13 +27,13 @@ class MoCourseTest(BaseRequest):
 
     @requires_auth()
     def init_auth(self):
-        self.token = local_data.__getattr__("token")
-        print("token: ", self.token)
+        self.__token = local_data.__getattr__("token")
+        print("token: ", self.__token)
 
     def end_class(self):
         print("结束测试")
         # 登录闭环
-        print("token: ", self.token)
+        print("token: ", self.__token)
         logout()
 
     @file_data("../test_data/course_case_data.yaml", key="course&3")
