@@ -82,13 +82,14 @@ class MoUserTest(BaseRequest):
             self, _, email, expect_message, status_code):
         """检查邮箱是否属于用户"""
         url = '/user/check_email_belong_user'
+        token = local_data.__getattr__("token")
         self.post(
             url=GLOBLE_URL +
             url,
             json=email,
             headers={
                 "Authorization": "Bearer " +
-                                 self._token})
+                                 token})
         assert_json = expect_message
         self.assertJSON(assert_json)
         self.assertStatusCode(status_code)
