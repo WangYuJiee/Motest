@@ -109,7 +109,7 @@ def logout():
 def requires_auth(username=None, password=None):
     """ 每次用户登录需要有个闭环，最后需要登出"""
     if username is None and password is None:
-        user = "RS74"
+        user = "luxu99"
         pwd = "123456"
     else:
         user = username

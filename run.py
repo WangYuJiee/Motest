@@ -11,5 +11,5 @@ if __name__ == '__main__':
     seldom.main(path="api_test/test_cases",
                 # base_url=base_url,
                 title="Mo",
-                debug=True,
+                debug=False,
                 description="windows 10")

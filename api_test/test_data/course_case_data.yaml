@@ -1,115 +1,243 @@
-##
-#    每个接口key为了唯一性保证，在接口名字后面加个请求方式
-#    1、OPTIONS
-#    2、HEA
-#    3、GET
-#    4、POST
-#    5、PUT
-#    6、DELETE
-#    7、TRACE
-#    8、CONNECT
-#    接口名字&请求方式
-##
+###
+##    每个接口key为了唯一性保证，在接口名字后面加个请求方式
+##    1、OPTIONS
+##    2、HEA
+##    3、GET
+##    4、POST
+##    5、PUT
+##    6、DELETE
+##    7、TRACE
+##    8、CONNECT
+##    接口名字&请求方式
+###
+#path: /course
 
-# /course/series
-series:
-  - title: 获取正确的课程
-    params:
-      activeTopTab: official
-      page_no: 1
-      sort: path
-    response:
-    statu_code: 200
-  - title: 获取正确的课程
-    params:
-      activeTopTab: official
-      page_no: 2
-      sort: path
-    response:
-    statu_code: 200
+data:
+  - - title: 获取官方课程
+    - params:
+       activeTopTab: official
+       page_no: 1
+       sort: path
+    - response :
+      - zh_name : 李宏毅机器学习
+    - 200
 
-# /course
-course&3:
-  - title: 获取正确的我的课程
-    params:
-      page_no: 1
-      page_size: 20
-      group: my
-      type: all
-      learning_status: all
-      is_backstage: false
-    response:
-    statu_code: 200
-  - title: 获取正确的我的课程
-    params:
-      page_no: 1
-      page_size: 30
-      group: my
-      type: official
-      learning_status: all
-      is_backstage: false
-    response:
-    statu_code: 200
+#path：/course/series
 
-# /course
-course&5:
-  - title: 获取正确的我的课程
-    json:
-      query: 1
-      course_ids : []
-      hide_in_list: true
-      offline: true
-      is_public: true
-    response:
-    statu_code: 200
+data2:
+  - - title: 获取学习路径
+    - response :
+        python_courses:
+          - zh_name : Python 进阶
+    - 200
 
+#path：/course/individual
+
+data3:
+  - - title: 获取我的课程
+    - response:
+        learning_course:
+          zh_name : 从 Python 到人工智能
+    - 200
+
+
+#path: /course/comment
+
+data4:
+  - - title: 获取我的课程评分
+    - 60f02c635076ff487bce4c6f
+    - response :
+        "rate": 5.0
+    - 200
+
+
+#path: /course/rating/
+
+data5:
+  - - title: 获取课程评分
+    - 60f02c635076ff487bce4c6f
+    - 200
+
+
+#path: /course/status get
+
+data6:
+  - - title: 获取课程评分
+    - course_id: 60f02c635076ff487bce4c6f
+    - 200
+
+
+#path: /course/status post
+
+data7:
+  - - title: 开始课程（已加入）
+    - 60f02c635076ff487bce4c6f
+    - is_trail: false
+    - message: Users have joined the course
+    - 400
+
+
+#pathn: /course/tree/
+
+data8:
+  - - title: 获取课程信息
+    - 60f02c635076ff487bce4c6f
+    - course_info:
+        teacher_info:
+          name : 翁恺
+    - 200
+
+
+#path: /course/grade/
+
+data9:
+  - - title: 获取课程成绩
+    - 60f02c635076ff487bce4c6f
+    - section_grade:
+        - section_zh_name: NumPy与SymPy
+    - 200
+
+
+#path: /course/enroll
+
+data10:
+  - - title: 创建课程
+    - course_id: 60f02c635076ff487bce4c6f
+    - response: ok
+    - 200
+
+  - - title: 创建错误课程
+    - course_id: 123212321e4c6f
+    - message: Bad Request
+    - 400
+
+
+
+#path /project
+
+data11:
+  - - title: 获取用户创建的课程信息
+    - type: app
+      new_display_name: 从 Python 到人工智能
+      is_template: true
+      course_ID: 60f02c635076ff487bce4c6f
+      randNumStr: 0.1667620117297346
+      display_name: 从 Python 到人工智能
+    - response:
+        display_name: 从 Python 到人工智能
+    - 200
+
+#  - - title : 获取luxu99的课程信息
+#    - params:
+#        concat: false
+#        page_no: 1
+#        is_backstage: false
+#        page_size: 8
+#        group : my
+#    - response :
+#      - zh_name : 杭州中职Python考试
+#    - 200
+
+
+## /course/series
+#series:
+#  - - title: 获取正确的课程
+#    - params:
+#       activeTopTab: official
+#       page_no: 1
+#       sort: path
+#     response:
+#     statu_code: 200
+#  - - title: 获取正确的课程
+#    - params:
+#       activeTopTab: official
+#       page_no: 2
+#       sort: path
+#     response:
+#    - 200
 #
-status:
-  - title: 获取正确的我的课程状态
-    params:
-      course_id: ["12","45"]
-      is_trial: True
-    response:
-    statu_code: 200
-
-# /course/comment
-comment:
-  - title: 正确获取课程评论
-    params:
-      course_id: "60f02c635076ff487bce4c6f"
-    response:
-    statu_code: 200
-  - title: 未登录获取课程评论
-    params:
-      course_id: "61b9b34113dd051934e99b25"
-    response:
-      message: "You are not logged in, please log in and use it again"
-    statu_code: 403
-  - title: 课程评论id不存在
-    params:
-      course_id: "5fd22947af9564c76a30dc4"
-    response:
-
-    statu_code: 403
-
-# /course/enroll
-enroll:
-  - title: ""
-    params:
-      course_id: "12"
-      course_unit_id: ""
-      status: ""
-      project_id: ""
-      is_trial: ""
-    response:
-    statu_code: 200
-
-  - title: ""
-    params:
-      course_id: "12"
-      course_unit_id: ""
-      status: ""
-      project_id: ""
-      is_trial: ""
-    response:
-    statu_code: 200
+## /course
+#course&3:
+#  - - title: 获取正确的我的课程
+#    - params:
+#       page_no: 1
+#       page_size: 20
+#       group: my
+#       type: all
+#       learning_status: all
+#       is_backstage: false
+#     response:
+#     statu_code: 200
+#  - - title: 获取正确的我的课程
+#    - params:
+#       page_no: 1
+#       page_size: 30
+#       group: my
+#       type: official
+#       learning_status: all
+#       is_backstage: false
+#     response:
+#     statu_code: 200
+#
+## /course
+#course&5:
+#  - - title: 获取正确的我的课程
+#    - json:
+#       query: 1
+#       course_ids : []
+#       hide_in_list: true
+#       offline: true
+#       is_public: true
+#     response:
+#     statu_code: 200
+#
+##
+#status:
+#  - title: 获取正确的我的课程状态
+#    params:
+#      course_id: ["12","45"]
+#      is_trial: True
+#    response:
+#    statu_code: 200
+#
+## /course/comment
+#comment:
+#  - title: 正确获取课程评论
+#    params:
+#      course_id: "60f02c635076ff487bce4c6f"
+#    response:
+#    statu_code: 200
+#  - title: 未登录获取课程评论
+#    params:
+#      course_id: "61b9b34113dd051934e99b25"
+#    response:
+#      message: "You are not logged in, please log in and use it again"
+#    statu_code: 403
+#  - title: 课程评论id不存在
+#    params:
+#      course_id: "5fd22947af9564c76a30dc4"
+#    response:
+#
+#    statu_code: 403
+#
+## /course/enroll
+#enroll:
+#  - title: ""
+#    params:
+#      course_id: "12"
+#      course_unit_id: ""
+#      status: ""
+#      project_id: ""
+#      is_trial: ""
+#    response:
+#    statu_code: 200
+#
+#  - title: ""
+#    params:
+#      course_id: "12"
+#      course_unit_id: ""
+#      status: ""
+#      project_id: ""
+#      is_trial: ""
+#    response:
+#    statu_code: 200

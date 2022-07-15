@@ -21,7 +21,7 @@ data:
 data1:
   - - titele: 用户正常登录
     - luxu99
-    - "111111"
+    - "123456"
     - state: login
       user:
         username: luxu99

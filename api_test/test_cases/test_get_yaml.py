@@ -5,7 +5,7 @@ import unittest
 from ddt import ddt, file_data
 from seldom import file_data
 
-from utility.requests_interface import BaseRequest
+from api_test.test_cases import BaseRequest
 
 try:
     import yaml
@@ -22,8 +22,8 @@ needs_yaml = unittest.skipUnless(
 # print '***获取上上级目录***'
 parent_path = os.path.abspath(os.path.join(os.getcwd(), ".."))
 
-@ddt
-class TestYaml(BaseRequest):
+# @ddt
+# class TestYaml(BaseRequest):
     #
     # @file_data("info.yaml", key='login2')
     # def test_login(self, username, password):
@@ -39,10 +39,10 @@ class TestYaml(BaseRequest):
     #     print(start, end, value, ed['username'], ed['login'])
     # #
     # 使用ddt的包
-    @needs_yaml
-    @file_data(parent_path+'/test_data/test_data_dict_dict.yaml')
-    def test_file_data_yaml_dict_dict(self, start, end, value):
-        print(start, end, value)
+    # @needs_yaml
+    # # @file_data(parent_path+'/test_data/test_data_dict_dict.yaml')
+    # def test_file_data_yaml_dict_dict(self, start, end, value):
+    #     print(start, end, value)
         # self.assertLess(start, end)
         # self.assertLess(value, end)
         # self.assertGreater(value, start)

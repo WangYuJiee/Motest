@@ -18,9 +18,9 @@ class MoUserTest(BaseRequest):
     @requires_auth()
     def start_class(self):
         print("开始测试")
-        # global Token
+        global Token
         # Token = r.json()['token']
-        self._token = local_data.__getattr__("token")
+        Token = local_data.__getattr__("token")
 
     @classmethod
     def end_class(cls):
@@ -32,8 +32,8 @@ class MoUserTest(BaseRequest):
     def test_case_send_verification_code_email(
             self, _, email, expect_message, status_code):
         """注册/登录时, 发送验证码到邮箱"""
-        url = '/user/send_verification_code_email/' + email
-        self.get(url=GLOBLE_URL + url)
+        url = GLOBLE_URL + '/user/send_verification_code_email/' + email
+        self.get(url=url)
         assert_json = expect_message
         self.assertJSON(assert_json)
         # self.assertPath("response",expect_message)
@@ -43,36 +43,36 @@ class MoUserTest(BaseRequest):
     def test_send_verification_code_phone(
             self, _, phone, expect_message, status_code):
         """给手机发送验证码"""
-        url = '/user/send_verification_code/' + str(phone)
-        self.get(url=GLOBLE_URL + url)
+        url = GLOBLE_URL + '/user/send_verification_code/' + str(phone)
+        self.get(url=url)
         assert_json = expect_message
         self.assertJSON(assert_json)
         self.assertStatusCode(status_code)
 
     @file_data("username_case_data.yaml", key="data")
     def test_check_username_exist(
-            self, _, username, expect_message, status_code):
+            self, _, params, expect_message, status_code):
         """检查用户名是否已存在"""
-        url = '/user/check_username_exist'
-        self.get(url=GLOBLE_URL + url, params=username)
+        url = GLOBLE_URL + '/user/check_username_exist'
+        self.get(url=url, params=params)
         assert_json = expect_message
         self.assertJSON(assert_json)
         self.assertStatusCode(status_code)
 
     @file_data("email_case_data.yaml", key="data2")
-    def test_check_email_exist(self, _, email, expect_message, status_code):
+    def test_check_email_exist(self, _, params, expect_message, status_code):
         """注册时检查邮箱是否已存在"""
-        url = '/user/check_email_exist'
-        self.get(url=GLOBLE_URL + url, params=email)
+        url = GLOBLE_URL + '/user/check_email_exist'
+        self.get(url=url, params=params)
         assert_json = expect_message
         self.assertJSON(assert_json)
         self.assertStatusCode(status_code)
 
     @file_data("phone_case_data.yaml", key='data2')
-    def test_check_phone_exist(self, _, phone, expect_message, status_code):
+    def test_check_phone_exist(self, _, params, expect_message, status_code):
         """注册时检查手机号是否已存在"""
-        url = '/user/check_phone_exist'
-        self.get(url=GLOBLE_URL + url, params=phone)
+        url = GLOBLE_URL + '/user/check_phone_exist'
+        self.get(url=url, params=params)
         assert_json = expect_message
         self.assertJSON(assert_json)
         self.assertStatusCode(status_code)
@@ -81,15 +81,13 @@ class MoUserTest(BaseRequest):
     def test_check_email_belong_user(
             self, _, email, expect_message, status_code):
         """检查邮箱是否属于用户"""
-        url = '/user/check_email_belong_user'
-        token = local_data.__getattr__("token")
+        url = GLOBLE_URL + '/user/check_email_belong_user'
         self.post(
-            url=GLOBLE_URL +
-            url,
+            url=url,
             json=email,
             headers={
-                "Authorization": "Bearer " +
-                                 token})
+                "Authorization": "Bearer " + Token
+                                 })
         assert_json = expect_message
         self.assertJSON(assert_json)
         self.assertStatusCode(status_code)
@@ -135,9 +133,9 @@ class MoUserTest(BaseRequest):
     def test_session_login(self):
         """设置session和cookie"""
         url = GLOBLE_URL + '/user/session_login'
-        self.get(url=GLOBLE_URL + url)
-        assert_json = {"response": "session login success"}
-        self.assertJSON(assert_json)
+        self.get(url=url)
+        # assert_json = {"response": "session login success"}
+        # self.assertJSON(assert_json)
         self.assertStatusCode(200)
 
     #
@@ -153,86 +151,86 @@ class MoUserTest(BaseRequest):
     #     requests.delete(GLOBLE_URL + f'/git/{user_ID}/delete_user_path')
     #
 
-    @file_data("user_case_data.yaml", key='phone_verification_code')
-    def test_get_send_verification_code(self, response, phone):
-        """获取手机验证码"""
-        url = GLOBLE_URL + "/user/send_verification_code"
-
-        self.get(url, params=phone)
-        self.assertJSON(response)
-
-    def test_get_send_verification_code_email(self, response, email):
-        """邮箱验证码"""
-        url = GLOBLE_URL + "/user/send_verification_code_email"
-        self.get(url, params=email)
-        self.assertJSON(response)
-
-    def test_put_temp_user(self, ):
-        """临时用户账号登录"""
-        url = GLOBLE_URL + "/user/temp_user"
-        self.put(url)
-
-    def test_post_login_or_register_phone(self):
-        """手机号登录或注册"""
-        url = GLOBLE_URL + "/user/login_or_register_phone"
-        self.post(url)
-
-    def test_login_with_phone(self, _, phone, code, status_code):
-        """手机号登录"""
-        url = GLOBLE_URL + "/user/login_with_phone"
-        self.test_get_send_verification_code(phone)
-        body = {
-            "phone": phone,
-            "code": code
-        }
-        self.post(url, json=body)
-        self.assertStatusCode(status_code)
-
-    def test_register_with_phone(self):
-        """手机号注册"""
-        url = GLOBLE_URL + "/user/register_with_phone"
-        self.post()
-
-    def test_login_or_register_email(self):
-        """邮箱登录或注册"""
-
-        url = GLOBLE_URL + "/user/login_or_register_email"
-        self.post()
-
-    def test_login_with_email(self):
-        """邮箱登录"""
-        url = GLOBLE_URL + "/user/login_with_email"
-        self.post()
-
-    def test_register_with_email(self):
-        """邮箱注册"""
-        url = GLOBLE_URL + "/user/register_with_email"
-        self.post()
-
-    def test_verify_code_phone(self):
-        """验证手机验证码"""
-        url = GLOBLE_URL + "/user/verify_code_phone"
-        self.post()
-
-    def test_reset_password_phone(self):
-        """手机重置密码"""
-
-        url = GLOBLE_URL + "/user/reset_password_phone"
-        self.post()
-
-    def test_verify_code_email(self):
-        """验证邮箱验证码"""
-        url = GLOBLE_URL + "/user/verify_code_email"
-        self.post()
-
-    @file_data("user_case_data.yaml", key='reset_password_email')
-    def test_reset_password_email(self, _, params, status_code):
-        """邮箱重置密码"""
-        # new_password、new_check_password、email
-        url = GLOBLE_URL + "/user/reset_password_email"
-        body = params
-        self.post(url, params=body)
-        self.assertStatusCode(status_code)
+    # @file_data("user_case_data.yaml", key='phone_verification_code')
+    # def test_get_send_verification_code(self, response, phone):
+    #     """获取手机验证码"""
+    #     url = GLOBLE_URL + "/user/send_verification_code"
+    #
+    #     self.get(url, params=phone)
+    #     self.assertJSON(response)
+    #
+    # def test_get_send_verification_code_email(self, response, email):
+    #     """邮箱验证码"""
+    #     url = GLOBLE_URL + "/user/send_verification_code_email"
+    #     self.get(url, params=email)
+    #     self.assertJSON(response)
+    #
+    # def test_put_temp_user(self, ):
+    #     """临时用户账号登录"""
+    #     url = GLOBLE_URL + "/user/temp_user"
+    #     self.put(url)
+    #
+    # def test_post_login_or_register_phone(self):
+    #     """手机号登录或注册"""
+    #     url = GLOBLE_URL + "/user/login_or_register_phone"
+    #     self.post(url)
+    #
+    # def test_login_with_phone(self, _, phone, code, status_code):
+    #     """手机号登录"""
+    #     url = GLOBLE_URL + "/user/login_with_phone"
+    #     self.test_get_send_verification_code(phone)
+    #     body = {
+    #         "phone": phone,
+    #         "code": code
+    #     }
+    #     self.post(url, json=body)
+    #     self.assertStatusCode(status_code)
+    #
+    # def test_register_with_phone(self):
+    #     """手机号注册"""
+    #     url = GLOBLE_URL + "/user/register_with_phone"
+    #     self.post()
+    #
+    # def test_login_or_register_email(self):
+    #     """邮箱登录或注册"""
+    #
+    #     url = GLOBLE_URL + "/user/login_or_register_email"
+    #     self.post()
+    #
+    # def test_login_with_email(self):
+    #     """邮箱登录"""
+    #     url = GLOBLE_URL + "/user/login_with_email"
+    #     self.post()
+    #
+    # def test_register_with_email(self):
+    #     """邮箱注册"""
+    #     url = GLOBLE_URL + "/user/register_with_email"
+    #     self.post()
+    #
+    # def test_verify_code_phone(self):
+    #     """验证手机验证码"""
+    #     url = GLOBLE_URL + "/user/verify_code_phone"
+    #     self.post()
+    #
+    # def test_reset_password_phone(self):
+    #     """手机重置密码"""
+    #
+    #     url = GLOBLE_URL + "/user/reset_password_phone"
+    #     self.post()
+    #
+    # def test_verify_code_email(self):
+    #     """验证邮箱验证码"""
+    #     url = GLOBLE_URL + "/user/verify_code_email"
+    #     self.post()
+    #
+    # @file_data("user_case_data.yaml", key='reset_password_email')
+    # def test_reset_password_email(self, _, params, status_code):
+    #     """邮箱重置密码"""
+    #     # new_password、new_check_password、email
+    #     url = GLOBLE_URL + "/user/reset_password_email"
+    #     body = params
+    #     self.post(url, params=body)
+    #     self.assertStatusCode(status_code)
 
 
 if __name__ == '__main__':
